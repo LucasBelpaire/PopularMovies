@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.belpaire.lucas.popularmovies.DetailActivity">
 
+    <!-- " tools:ignore="PrivateResource" " is used to suppress warning given by " android:icon="@drawable/abc_ic_menu_share_mtrl_alpha" " -->
+    <item
+        android:id="@+id/action_share"
+        android:icon="@drawable/abc_ic_menu_share_mtrl_alpha"
+        tools:ignore="PrivateResource"
+        android:title="@string/share_button"
+        app:showAsAction="always"/>
 </menu>
