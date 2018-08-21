@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_movies);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_movies);
 
         mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
 
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
-        loadMovieData("popular");
+        loadMovieData("TOP_RATED");
     }
 
     private void loadMovieData(String sortBy){

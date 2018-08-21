@@ -72,4 +72,29 @@ public final class OpenMovieDataJsonUtils {
         return BASE_IMAGE_URL + NORMAL_POSTER_SIZE + movie.getString(POSTER_IMAGE);
 
     }
+
+    public static String getMovieReleaseDate(String jsonMovie) throws JSONException {
+        final String RELEASE_DATE = "release_date";
+
+        JSONObject movie = new JSONObject(jsonMovie);
+
+        return movie.getString(RELEASE_DATE);
+    }
+
+    public static String getMovieAverageScore(String jsonMovie) throws JSONException {
+        final String AVERAGE_SCORE = "vote_average";
+
+        JSONObject movie = new JSONObject(jsonMovie);
+
+        return movie.getString(AVERAGE_SCORE);
+    }
+
+    public static String getMovieSynopsis(String jsonMovie) throws JSONException {
+        final String SYNOPSIS = "overview";
+
+        JSONObject movie = new JSONObject(jsonMovie);
+
+        return movie.getString(SYNOPSIS);
+    }
+
 }

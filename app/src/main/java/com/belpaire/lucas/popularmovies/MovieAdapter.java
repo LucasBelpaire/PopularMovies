@@ -19,7 +19,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
     private final MovieAdapterClickHandler mClickHandler;
 
     public interface MovieAdapterClickHandler {
-        void onClick(String movieTitle);
+        void onClick(String movieJson);
     }
 
     public MovieAdapter(MovieAdapterClickHandler clickHandler){
@@ -42,13 +42,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
             int adapterPosition = getAdapterPosition();
 
             String movieJson = mMovieJsonData[adapterPosition];
-            String movieTitle = null;
-            try {
-                movieTitle = OpenMovieDataJsonUtils.getTitleOfJsonMovie(movieJson);
-            } catch (JSONException e){
-                e.printStackTrace();
-            }
-            mClickHandler.onClick(movieTitle);
+            mClickHandler.onClick(movieJson);
         }
     }
 
