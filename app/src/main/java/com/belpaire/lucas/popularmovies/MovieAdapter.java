@@ -7,9 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.belpaire.lucas.popularmovies.utilities.OpenMovieDataJsonUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapterViewHolder> {
 
-    private String[] mMovieTitleData;
+    private String[] mMovieJsonData;
 
     private final MovieAdapterClickHandler mClickHandler;
 
@@ -35,7 +40,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         @Override
         public void onClick(View view) {
             int adapterPosition = getAdapterPosition();
-            String movieTitle = mMovieTitleData[adapterPosition];
+
+            String movieJson = mMovieJsonData[adapterPosition];
+            String movieTitle = null;
+            try {
+                movieTitle = OpenMovieDataJsonUtils.getTitleOfJsonMovie(movieJson);
+            } catch (JSONException e){
+                e.printStackTrace();
+            }
             mClickHandler.onClick(movieTitle);
         }
     }
@@ -53,21 +65,28 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
 
     @Override
     public void onBindViewHolder(MovieAdapterViewHolder movieAdapterViewHolder, int position){
-        String movieTitle = mMovieTitleData[position];
+
+        String movieJson = mMovieJsonData[position];
+        String movieTitle = null;
+        try {
+            movieTitle = OpenMovieDataJsonUtils.getMoviePosterUrl(movieJson);
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
         movieAdapterViewHolder.mMovieTextView.setText(movieTitle);
     }
 
     @Override
     public int getItemCount(){
-        if (null == mMovieTitleData){
+        if (null == mMovieJsonData){
             return 0;
         } else {
-            return mMovieTitleData.length;
+            return mMovieJsonData.length;
         }
     }
 
-    public void setmMovieTitleData(String[] movieTitleData){
-        mMovieTitleData = movieTitleData;
+    public void setMovieTitleData(String[] movieTitleData){
+        mMovieJsonData = movieTitleData;
         notifyDataSetChanged();
     }
 }

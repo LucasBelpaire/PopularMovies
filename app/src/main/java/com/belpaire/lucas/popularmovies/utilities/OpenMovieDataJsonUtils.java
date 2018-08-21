@@ -8,15 +8,13 @@ import org.json.JSONObject;
 
 public final class OpenMovieDataJsonUtils {
 
-    public static String[] getSimpleMovieDataStringsFromJson(Context context, String jsonMovieDataStr) throws JSONException{
+    public static String[] getMovieListAsJsonObjects(Context context, String jsonMovieDataStr) throws JSONException{
 
         // TODO final strings used for getting things out of the json object
 
         final String MOVIE_LIST = "results";
 
-        final String MOVIE_TITLE = "title";
-
-        String[] parsedMovieData = null;
+        String[] movieListAsJsonObjects = null;
 
         JSONObject movieJson = new JSONObject(jsonMovieDataStr);
 
@@ -24,16 +22,54 @@ public final class OpenMovieDataJsonUtils {
 
         JSONArray movieArray = movieJson.getJSONArray(MOVIE_LIST);
 
-        parsedMovieData = new String[movieArray.length()];
+        movieListAsJsonObjects = new String[movieArray.length()];
 
         for(int i = 0; i < movieArray.length(); i++){
-
-            JSONObject movie = movieArray.getJSONObject(i);
-
-            parsedMovieData[i] = movie.getString(MOVIE_TITLE);
-
+            movieListAsJsonObjects[i] =  movieArray.getJSONObject(i).toString();
         }
 
-        return parsedMovieData;
+        return movieListAsJsonObjects;
+    }
+
+    public static JSONObject[] getMoviesListAsJsonObjects(Context context, String jsonMovieDataStr) throws JSONException {
+
+        final String MOVIE_LIST = "results";
+
+        JSONObject newJsonMovieData = new JSONObject(jsonMovieDataStr);
+
+        JSONArray newJsonMovieDataArray = newJsonMovieData.getJSONArray(MOVIE_LIST);
+
+        JSONObject[] listOfMoviesAsJson = new JSONObject[newJsonMovieDataArray.length()];
+
+        for(int i = 0; i < newJsonMovieDataArray.length(); i++){
+            listOfMoviesAsJson[i] = newJsonMovieDataArray.getJSONObject(i);
+        }
+
+        return listOfMoviesAsJson;
+
+    }
+
+    public static String getTitleOfJsonMovie(String jsonMovie) throws JSONException{
+
+        final String TITLE = "title";
+
+        JSONObject movie = new JSONObject(jsonMovie);
+
+        return movie.getString(TITLE);
+
+    }
+
+    public static String getMoviePosterUrl(String jsonMovie) throws JSONException {
+
+        final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/";
+
+        final String NORMAL_POSTER_SIZE = "w185";
+
+        final String POSTER_IMAGE = "poster_path";
+
+        JSONObject movie = new JSONObject(jsonMovie);
+
+        return BASE_IMAGE_URL + NORMAL_POSTER_SIZE + movie.getString(POSTER_IMAGE);
+
     }
 }
