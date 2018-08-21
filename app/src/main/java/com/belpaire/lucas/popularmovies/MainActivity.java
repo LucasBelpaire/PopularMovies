@@ -7,13 +7,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.belpaire.lucas.popularmovies.utilities.NetworkUtils;
+import com.belpaire.lucas.popularmovies.utilities.OpenMovieDataJsonUtils;
 
 import java.net.URL;
+
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterClickHandler {
 
@@ -35,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
 
-        GridLayoutManager layoutManager = new GridLayoutManager(this, GridLayoutManager.DEFAULT_SPAN_COUNT);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 4);
 
         mRecyclerView.setLayoutManager(layoutManager);
 
@@ -54,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private void loadMovieData(){
         showMovieDataView();
 
+        new FetchMovieTask().execute();
         //TODO implement this loadmoviedata method
     }
 
@@ -76,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         startActivity(intentToStartDetailActivity);
     }
 
-    public class FetchMovieTask extends AsyncTask<String, void, String[]> {
+    public class FetchMovieTask extends AsyncTask<String, Void, String[]> {
 
         @Override
         protected void onPreExecute() {
@@ -87,17 +91,30 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         @Override
         protected String[] doInBackground(String... params){
 
-            if(params.length == 0){
-                return null;
-            }
-
             URL movieDataRequestUrl = NetworkUtils.buildUrl();
 
             try {
-                String jsonMovieDataResponse = NetworkUtils.getResponseFromHttpUrl(movieDataRequestUrl);
+                String jsonMovieDataResponse = NetworkUtils.getResponseFromHttpsUrl(movieDataRequestUrl);
+
+                String[] simpleJsonMovieData = OpenMovieDataJsonUtils.getSimpleMovieDataStringsFromJson(MainActivity.this, jsonMovieDataResponse);
+
+                return simpleJsonMovieData;
+
+            } catch (Exception e){
+                e.printStackTrace();
+                return null;
             }
         }
 
-
+        @Override
+        protected void onPostExecute(String[] movieData){
+            mLoadingIndicator.setVisibility(View.INVISIBLE);
+            if (movieData != null){
+                showMovieDataView();
+                mMovieAdapter.setmMovieTitleData(movieData);
+            } else {
+                showErrorMessage();
+            }
+        }
     }
 }
