@@ -59,7 +59,7 @@ public class DetailActivity extends AppCompatActivity {
             mMovieReleaseDate.setText(movieReleaseDate);
             mMovieAverageScore.setText(movieAverageScore);
             mMovieSynopsis.setText(movieSynopsis);
-            Picasso.get().load(moviePoster).into(mMoviePoster);
+            Picasso.get().load(moviePoster).resize(278, 416).into(mMoviePoster);
 
         }
     }

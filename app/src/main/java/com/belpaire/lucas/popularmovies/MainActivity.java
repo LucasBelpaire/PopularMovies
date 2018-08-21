@@ -138,7 +138,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     public boolean onOptionsItemSelected(MenuItem menuItem){
         int id = menuItem.getItemId();
 
-        if(id == R.id.action_sort_by_top_rated){
+        if(id == R.id.action_refresh){
+            loadMovieData("TOP_RATED");
+        } else if(id == R.id.action_sort_by_top_rated){
             loadMovieData("TOP_RATED");
             return true;
         } else if(id == R.id.action_sort_by_most_popular){

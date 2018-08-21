@@ -23,7 +23,8 @@
             android:layout_height="wrap_content"
             android:text="@string/release_date"
             android:gravity="start"
-            android:padding="6dp"/>
+            android:padding="6dp"
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/release_date"
@@ -42,7 +43,8 @@
             android:layout_height="wrap_content"
             android:text="@string/vote_average"
             android:gravity="start"
-            android:padding="6dp"/>
+            android:padding="6dp"
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/vote_average"
@@ -61,7 +63,8 @@
             android:layout_height="wrap_content"
             android:text="@string/plot_synopsis"
             android:gravity="start"
-            android:padding="6dp"/>
+            android:padding="6dp"
+            android:textSize="24sp"/>
 
         <TextView
             android:id="@+id/plot_synopsis"
