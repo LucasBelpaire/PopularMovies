@@ -5,12 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import com.belpaire.lucas.popularmovies.utilities.OpenMovieDataJsonUtils;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapterViewHolder> {
 
@@ -29,11 +29,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
 
     public class MovieAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public final TextView mMovieTextView;
+        public final ImageView mMovieImageView;
 
         public MovieAdapterViewHolder(View view){
             super(view);
-            mMovieTextView = (TextView) view.findViewById(R.id.movie_title_data);
+            mMovieImageView = (ImageView) view.findViewById(R.id.movie_poster);
             view.setOnClickListener(this);
         }
 
@@ -67,13 +67,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
     public void onBindViewHolder(MovieAdapterViewHolder movieAdapterViewHolder, int position){
 
         String movieJson = mMovieJsonData[position];
-        String movieTitle = null;
+        String moviePoster = null;
         try {
-            movieTitle = OpenMovieDataJsonUtils.getMoviePosterUrl(movieJson);
+            moviePoster = OpenMovieDataJsonUtils.getMoviePosterUrl(movieJson);
         } catch (JSONException e){
             e.printStackTrace();
         }
-        movieAdapterViewHolder.mMovieTextView.setText(movieTitle);
+        Picasso.get().load(moviePoster).into(movieAdapterViewHolder.mMovieImageView);
     }
 
     @Override

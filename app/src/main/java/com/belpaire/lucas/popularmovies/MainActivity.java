@@ -7,6 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -37,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
 
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 4);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
 
         mRecyclerView.setLayoutManager(layoutManager);
 
@@ -50,13 +53,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
-        loadMovieData();
+        loadMovieData("popular");
     }
 
-    private void loadMovieData(){
+    private void loadMovieData(String sortBy){
         showMovieDataView();
 
-        new FetchMovieTask().execute();
+        new FetchMovieTask().execute(sortBy);
     }
 
     private void showMovieDataView(){
@@ -89,7 +92,15 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         @Override
         protected String[] doInBackground(String... params){
 
-            URL movieDataRequestUrl = NetworkUtils.buildUrl();
+            String sortBy = null;
+
+            if(params.length == 0){
+                sortBy = "TOP_RATED";
+            } else {
+                sortBy = params[0];
+            }
+
+            URL movieDataRequestUrl = NetworkUtils.buildUrl(sortBy);
 
             try {
                 String jsonMovieDataResponse = NetworkUtils.getResponseFromHttpsUrl(movieDataRequestUrl);
@@ -114,5 +125,26 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 showErrorMessage();
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.movies, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem){
+        int id = menuItem.getItemId();
+
+        if(id == R.id.action_sort_by_top_rated){
+            loadMovieData("TOP_RATED");
+            return true;
+        } else if(id == R.id.action_sort_by_most_popular){
+            loadMovieData("MOST_POPULAR");
+            return true;
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 }
