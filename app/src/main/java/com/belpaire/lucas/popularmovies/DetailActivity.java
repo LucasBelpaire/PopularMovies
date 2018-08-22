@@ -59,15 +59,21 @@ public class DetailActivity extends AppCompatActivity {
             mMovieReleaseDate.setText(movieReleaseDate);
             mMovieAverageScore.setText(movieAverageScore);
             mMovieSynopsis.setText(movieSynopsis);
-            Picasso.get().load(moviePoster).resize(278, 416).into(mMoviePoster);
+            Picasso.get().load(moviePoster).into(mMoviePoster);
 
         }
     }
 
     private Intent createShareMovieIntent() {
+        String movieTitle = null;
+        try {
+            movieTitle = OpenMovieDataJsonUtils.getTitleOfJsonMovie(mMovieJson);
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
         return ShareCompat.IntentBuilder.from(this)
                 .setType("text/plain")
-                .setText(mMovieJson + MOVIE_SHARE_HASHTAG)
+                .setText(movieTitle + MOVIE_SHARE_HASHTAG)
                 .getIntent();
     }
 

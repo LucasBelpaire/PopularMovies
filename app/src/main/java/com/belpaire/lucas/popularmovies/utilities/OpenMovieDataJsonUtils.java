@@ -63,7 +63,7 @@ public final class OpenMovieDataJsonUtils {
 
         final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/";
 
-        final String NORMAL_POSTER_SIZE = "w185";
+        final String NORMAL_POSTER_SIZE = "w342";
 
         final String POSTER_IMAGE = "poster_path";
 
