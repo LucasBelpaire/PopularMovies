@@ -60,7 +60,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
     @Override
     public void onBindViewHolder(MovieAdapterViewHolder movieAdapterViewHolder, int position){
 
-        String movieJson = mMovieJsonData[position];
+        String movieJson = mMovieJsonData[movieAdapterViewHolder.getAdapterPosition()];
         String moviePoster = null;
         try {
             moviePoster = OpenMovieDataJsonUtils.getMoviePosterUrl(movieJson);
