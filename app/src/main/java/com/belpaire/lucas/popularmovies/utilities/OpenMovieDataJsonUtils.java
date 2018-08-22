@@ -10,15 +10,11 @@ public final class OpenMovieDataJsonUtils {
 
     public static String[] getMovieListAsJsonObjects(Context context, String jsonMovieDataStr) throws JSONException{
 
-        // TODO final strings used for getting things out of the json object
-
         final String MOVIE_LIST = "results";
 
         String[] movieListAsJsonObjects = null;
 
         JSONObject movieJson = new JSONObject(jsonMovieDataStr);
-
-        // TODO add an error check
 
         JSONArray movieArray = movieJson.getJSONArray(MOVIE_LIST);
 
